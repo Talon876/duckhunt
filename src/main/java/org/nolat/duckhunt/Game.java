@@ -114,7 +114,7 @@ public class Game {
             if (System.nanoTime() - lastTimeShot >= timeBetweenShots) {
                 audio.playSound("shotgunblast");
                 shotCount++;
-                DuckSystem.DuckShotResult result = duckSystem.shootAt(mousePosition);
+                DuckShotResult result = duckSystem.shootAt(mousePosition);
                 if (result != null) {
                     killDuck(result.getPoints(), result.isHeadshot());
                 }

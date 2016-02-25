@@ -60,17 +60,17 @@ public class DuckSystem {
         lastDuckSpawnTime = System.currentTimeMillis();
     }
 
-    public int shootAt(Point point) {
+    public DuckShotResult shootAt(Point point) {
         for (Duck duck : ducks) {
             if (duck.getHeadHitbox().contains(point)) {
                 killDuck(duck);
-                return (int) (duck.score * 1.3);
+                return new DuckShotResult((int) (duck.score * 1.3), true);
             } else if (duck.getBodyHitbox().contains(point)) {
                 killDuck(duck);
-                return duck.score;
+                return new DuckShotResult(duck.score, false);
             }
         }
-        return 0;
+        return null;
     }
 
     private void killDuck(Duck toKill) {
@@ -102,5 +102,23 @@ public class DuckSystem {
 
     public int getAmountOfKilledDucks() {
         return killedDucks;
+    }
+
+    public static class DuckShotResult {
+        private final int points;
+        private final boolean isHeadshot;
+
+        public DuckShotResult(int points, boolean isHeadshot) {
+            this.points = points;
+            this.isHeadshot = isHeadshot;
+        }
+
+        public int getPoints() {
+            return points;
+        }
+
+        public boolean isHeadshot() {
+            return isHeadshot;
+        }
     }
 }

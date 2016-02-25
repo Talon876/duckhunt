@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class Window extends JFrame {
 
-    private Window() {
+    public Window() {
         // Sets the title for this frame.
         this.setTitle("Shoot the Duck");
 
@@ -41,12 +41,4 @@ public class Window extends JFrame {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        // Use the event dispatch thread to build the UI for thread-safety.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new Window();
-            }
-        });
-    }
 }

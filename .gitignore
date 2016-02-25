@@ -60,3 +60,5 @@ $RECYCLE.BIN/
 *.iml
 .idea
 target
+src/main/resources/sounds/allsounds.aup
+*.au

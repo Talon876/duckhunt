@@ -96,10 +96,6 @@ public class DuckSystem {
         this.ducks.forEach(duck -> duck.draw(g2d));
     }
 
-    public List<Duck> getDucks() {
-        return ducks;
-    }
-
     public int getAmountOfRunawayDucks() {
         return runawayDucks;
     }

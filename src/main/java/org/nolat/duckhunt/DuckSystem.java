@@ -62,12 +62,10 @@ public class DuckSystem {
 
     public int shootAt(Point point) {
         for (Duck duck : ducks) {
-            Rectangle duckHead = new Rectangle(duck.x + 18, duck.y, 27, 30);
-            Rectangle duckBody = new Rectangle(duck.x + 30, duck.y + 30, 88, 25);
-            if (duckHead.contains(point)) {
+            if (duck.getHeadHitbox().contains(point)) {
                 killDuck(duck);
                 return (int) (duck.score * 1.3);
-            } else if (duckBody.contains(point)) {
+            } else if (duck.getBodyHitbox().contains(point)) {
                 killDuck(duck);
                 return duck.score;
             }

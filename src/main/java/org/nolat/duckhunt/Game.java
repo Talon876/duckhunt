@@ -144,14 +144,14 @@ public class Game {
 
             if (System.nanoTime() - lastTimeShot >= timeBetweenShots) {
                 shotCount++;
-                for (int i = 0; i < ducks.size(); i++) {
-                    if (new Rectangle(ducks.get(i).x + 18, ducks.get(i).y, 27, 30).contains(mousePosition)) // head shot
+                for (Duck duck : ducks) {
+                    if (new Rectangle(duck.x + 18, duck.y, 27, 30).contains(mousePosition)) // head shot
                     {
-                        killDuck(ducks.get(i), true);
+                        killDuck(duck, true);
                         break;
-                    } else if (new Rectangle(ducks.get(i).x + 30, ducks.get(i).y + 30, 88, 25).contains(mousePosition)) // body shot
+                    } else if (new Rectangle(duck.x + 30, duck.y + 30, 88, 25).contains(mousePosition)) // body shot
                     {
-                        killDuck(ducks.get(i), false);
+                        killDuck(duck, false);
                         break;
                     }
                 }

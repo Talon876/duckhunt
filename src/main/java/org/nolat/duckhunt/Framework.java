@@ -81,7 +81,7 @@ public class Framework extends Canvas {
         Thread gameThread = new Thread() {
             @Override
             public void run() {
-                GameLoop();
+                gameLoop();
             }
         };
         gameThread.start();
@@ -91,7 +91,7 @@ public class Framework extends Canvas {
      * Set variables and objects.
      * This method is intended to set the variables and objects for this class, variables and objects for the actual game can be set in Game.java.
      */
-    private void Initialize() {
+    private void initialize() {
 
     }
 
@@ -99,7 +99,7 @@ public class Framework extends Canvas {
      * Load files - images, sounds, ...
      * This method is intended to load files for this class, files for the actual game can be loaded in Game.java.
      */
-    private void LoadContent() {
+    private void loadContent() {
         try {
             shootTheDuckMenuImg = ImageIO.read(this.getClass().getResource("/images/menu.jpg"));
         } catch (Exception x) {
@@ -110,7 +110,7 @@ public class Framework extends Canvas {
     /**
      * In specific intervals of time (GAME_UPDATE_PERIOD) the game/logic is updated and then the game is drawn on the screen.
      */
-    private void GameLoop() {
+    private void gameLoop() {
         // This two variables are used in VISUALIZING state of the game. We used them to wait some time so that we get correct frame/window resolution.
         long visualizingTime = 0, lastVisualizingTime = System.nanoTime();
 
@@ -124,7 +124,7 @@ public class Framework extends Canvas {
                 case PLAYING:
                     gameTime += System.nanoTime() - lastTime;
 
-                    game.UpdateGame(gameTime, mousePosition());
+                    game.updateGame(gameTime, mousePosition());
 
                     lastTime = System.nanoTime();
                     break;
@@ -142,9 +142,9 @@ public class Framework extends Canvas {
                     break;
                 case STARTING:
                     // Sets variables and objects.
-                    Initialize();
+                    initialize();
                     // Load files - images, sounds, ...
-                    LoadContent();
+                    loadContent();
 
                     // When all things that are called above finished, we change game status to main menu.
                     gameState = GameState.MAIN_MENU;
@@ -186,16 +186,16 @@ public class Framework extends Canvas {
     }
 
     /**
-     * Draw the game to the screen. It is called through repaint() method in GameLoop() method.
+     * draw the game to the screen. It is called through repaint() method in gameLoop() method.
      */
     @Override
-    public void Draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d) {
         switch (gameState) {
             case PLAYING:
-                game.Draw(g2d, mousePosition());
+                game.draw(g2d, mousePosition());
                 break;
             case GAMEOVER:
-                game.DrawGameOver(g2d, mousePosition());
+                game.drawGameOver(g2d, mousePosition());
                 break;
             case MAIN_MENU:
                 drawMainMenu(g2d);
@@ -239,7 +239,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game.RestartGame();
+        game.restartGame();
 
         // We change game status so that the game can start.
         gameState = GameState.PLAYING;

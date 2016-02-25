@@ -32,9 +32,9 @@ public class Game {
             @Override
             public void run() {
                 // Sets variables and objects for the game.
-                Initialize();
+                initialize();
                 // Load game files (images, sounds, ...)
-                LoadContent();
+                loadContent();
 
                 Framework.gameState = Framework.GameState.PLAYING;
             }
@@ -45,7 +45,7 @@ public class Game {
     /**
      * Set variables and objects for the game.
      */
-    private void Initialize() {
+    private void initialize() {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
         audio = new AudioManager();
@@ -84,7 +84,7 @@ public class Game {
     /**
      * Load game files - images, sounds, ...
      */
-    private void LoadContent() {
+    private void loadContent() {
         try {
             backgroundImg = ImageIO.read(this.getClass().getResource("/images/background.jpg"));
             grassImg = ImageIO.read(this.getClass().getResource("/images/grass.png"));
@@ -100,7 +100,7 @@ public class Game {
     /**
      * Restart game - reset some variables.
      */
-    public void RestartGame() {
+    public void restartGame() {
         ducks.clear();
         Duck.lastDuckTime = 0;
         runawayDucks = 0;
@@ -119,7 +119,7 @@ public class Game {
      * @param gameTime      gameTime of the game.
      * @param mousePosition current mouse position.
      */
-    public void UpdateGame(long gameTime, Point mousePosition) {
+    public void updateGame(long gameTime, Point mousePosition) {
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             Duck newDuck = new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200), Duck.duckLines[Duck.nextDuckLines][1], Duck.duckLines[Duck.nextDuckLines][2],
                     Duck.duckLines[Duck.nextDuckLines][3], duckImg);
@@ -220,12 +220,12 @@ public class Game {
     }
 
     /**
-     * Draw the game to the screen.
+     * draw the game to the screen.
      *
      * @param g2d           Graphics2D
      * @param mousePosition current mouse position.
      */
-    public void Draw(Graphics2D g2d, Point mousePosition) {
+    public void draw(Graphics2D g2d, Point mousePosition) {
         g2d.drawImage(backgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
         for (Duck duck : ducks) {
             duck.Draw(g2d);
@@ -243,8 +243,8 @@ public class Game {
         g2d.drawString("SCORE: " + score, 440, 21);
     }
 
-    public void DrawGameOver(Graphics2D g2d, Point mousePosition) {
-        Draw(g2d, mousePosition);
+    public void drawGameOver(Graphics2D g2d, Point mousePosition) {
+        draw(g2d, mousePosition);
 
         // The first text is used for shade.
         g2d.setColor(Color.black);

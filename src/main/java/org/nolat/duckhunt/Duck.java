@@ -29,11 +29,11 @@ public class Duck {
         this.duckImg = duckImg;
     }
 
-    public void Update() {
+    public void update() {
         x += speed;
     }
 
-    public void Draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d) {
         g2d.drawImage(duckImg, x, y, null);
     }
 }

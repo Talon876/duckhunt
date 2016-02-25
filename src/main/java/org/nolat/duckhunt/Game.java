@@ -114,7 +114,7 @@ public class Game {
     }
 
     /**
-     * Update game logic.
+     * update game logic.
      *
      * @param gameTime      gameTime of the game.
      * @param mousePosition current mouse position.
@@ -132,7 +132,7 @@ public class Game {
         }
 
         for (int i = 0; i < ducks.size(); i++) {
-            ducks.get(i).Update();
+            ducks.get(i).update();
             if (ducks.get(i).x < 0 - duckImg.getWidth()) {
                 ducks.remove(ducks.get(i));
                 runawayDucks++;
@@ -228,7 +228,7 @@ public class Game {
     public void draw(Graphics2D g2d, Point mousePosition) {
         g2d.drawImage(backgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
         for (Duck duck : ducks) {
-            duck.Draw(g2d);
+            duck.draw(g2d);
             // g2d.drawRect(duck.x + 18, duck.y, 27, 30);
             // g2d.drawRect(duck.x + 30, duck.y + 30, 88, 25);
         }

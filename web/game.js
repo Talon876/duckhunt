@@ -1,7 +1,6 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 
 var Duckhunt = function () {
-    this.logo = null;
     this.music = null;
 };
 
@@ -20,7 +19,6 @@ Duckhunt.PreLoad.prototype = {
 
     preload: function () {
         this.load.path = 'assets/';
-        this.load.image('logo');
         this.load.image('background', 'images/background.jpg');
         this.load.image('menu', 'images/menu.jpg');
         this.load.image('grass', 'images/grass.png');
@@ -87,11 +85,21 @@ Duckhunt.Game.prototype = {
             'grass');
         grass.width = this.world.width;
 
+        this.duckSystem = new Duckhunt.DuckSystem(this, {
+            width: this.world.width,
+            height: this.world.height,
+            timeBetweenDucks: 333,
+            duckImageKey: 'duck'
+        });
+
+        this.duckSystem.start();
+
         this.crosshair = new Duckhunt.Crosshair(this, 'sight');
     },
 
     update: function () {
         this.crosshair.update(this.input.mousePointer);
+        this.duckSystem.update();
     }
 };
 
@@ -100,9 +108,61 @@ Duckhunt.Crosshair = function (game, imageKey) {
     this.crosshair.anchor.setTo(0.5, 0.5);
 };
 Duckhunt.Crosshair.prototype = {
-    update: function(mouseLocation) {
+    update: function (mouseLocation) {
         this.crosshair.x = mouseLocation.x;
         this.crosshair.y = mouseLocation.y;
+    }
+
+};
+
+Duckhunt.DuckSystem = function (game, params) {
+    this.worldWidth = params.width;
+    this.worldHeight = params.height;
+    this.duckImageKey = params.duckImageKey;
+    this.duckWidth = game.cache.getImage(this.duckImageKey).width;
+    this.timeBetweenDucks = params.timeBetweenDucks;
+    this.lines = {
+        0: this.worldHeight * 0.6,
+        1: this.worldHeight * 0.65,
+        2: this.worldHeight * 0.7,
+        3: this.worldHeight * 0.78
+    };
+    this.ducks = [];
+    this.game = game;
+};
+Duckhunt.DuckSystem.prototype = {
+
+    start: function () {
+        this.duckSpawnTimer = this.game.time.create(false);
+        this.duckSpawnTimer.loop(this.timeBetweenDucks, this.spawnDuck, this);
+        this.duckSpawnTimer.start();
+    },
+
+    spawnDuck: function () {
+        var duck = new Duckhunt.Duck(this.game, {
+            x: this.worldWidth + this.game.rnd.integerInRange(20, 200),
+            y: this.lines[this.game.rnd.integerInRange(0, 3)],
+            speed: this.game.rnd.integerInRange(2, 5),
+            imageKey: 'duck'
+        });
+        this.ducks.push(duck);
+    },
+
+    update: function () {
+        this.ducks.forEach(function (duck) {
+            duck.update();
+        });
+    }
+};
+
+Duckhunt.Duck = function (game, params) {
+    this.speed = params.speed;
+    this.sprite = game.add.sprite(params.x, params.y, params.imageKey);
+};
+Duckhunt.Duck.prototype = {
+
+    update: function () {
+        this.sprite.x -= this.speed;
     }
 
 };
